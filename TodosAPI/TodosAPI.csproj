@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\UseCases\CreateTask\" />
+    <Folder Include="Application\UseCases\GetUserTask\" />
+    <Folder Include="Core\Entities\" />
+    <Folder Include="Core\Interfaces\" />
+    <Folder Include="Core\Services\" />
+    <Folder Include="Infrastructure\Data\" />
+    <Folder Include="Infrastructure\Services\" />
+    <Folder Include="Infrastructure\Repositories\" />
+    <Folder Include="Presentation\Controllers\" />
+  </ItemGroup>
+
+</Project>
