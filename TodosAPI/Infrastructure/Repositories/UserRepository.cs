@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TodosAPI.Core.Entities;
 using TodosAPI.Core.Interfaces;
 using TodosAPI.Infrastructure.Data;
-using System.Threading.Tasks; // Usar o Task correto
+
 
 namespace TodosAPI.Infrastructure.Repositories
 {
@@ -15,12 +15,12 @@ namespace TodosAPI.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> GetByIdAsync(string userId) // Corrigindo para PascalCase
+        public async Task<User> GetByIdAsync(string userId)
         {
             return await _context.Users.FindAsync(userId);
         }
 
-        public async Task<User> GetByEmailAsync(string email) // Corrigindo para PascalCase
+        public async Task<User> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }

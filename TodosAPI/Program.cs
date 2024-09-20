@@ -7,20 +7,21 @@ using TodosAPI.Application.UseCases.CreateUser;
 using TodosAPI.Core.Services;
 using TodosAPI.Core.Interfaces;
 using TodosAPI.Infrastructure.Repositories;
+using TodosAPI.Application.UseCases.LoginUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))      
+                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuração da autenticação JWT
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,9 +41,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Adicionando as dependências CreateUserHandler e AuthService
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CreateUserHandler>();
+
+builder.Services.AddScoped<LoginUserHandler>();
+
 builder.Services.AddScoped<AuthService>();
 
 
@@ -56,7 +60,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // Necessário para habilitar a autenticação
+app.UseAuthentication(); // Necessï¿½rio para habilitar a autenticaï¿½ï¿½o
 app.UseAuthorization();
 
 app.MapControllers();

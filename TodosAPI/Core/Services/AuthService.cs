@@ -11,7 +11,7 @@ namespace TodosAPI.Core.Services
     public class AuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration; // Para acessar a chave JWT
+        private readonly IConfiguration _configuration;
 
         public AuthService(IUserRepository userRepository, IConfiguration configuration)
         {
@@ -19,12 +19,12 @@ namespace TodosAPI.Core.Services
             _configuration = configuration;
         }
 
-        // Método para criar um novo usuário
+
         public async Task<User> RegisterUserAsync(string email, string password)
         {
             var existingUser = await _userRepository.GetByEmailAsync(email);
             if (existingUser != null)
-                throw new Exception("User already exists.");
+                throw new Exception("E-mail já cadastrado.");
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -61,7 +61,7 @@ namespace TodosAPI.Core.Services
             }
         }
 
-        // Método para autenticar o usuário e gerar um token JWT
+
         public async Task<string> AuthenticateUserAsync(string email, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
@@ -71,7 +71,7 @@ namespace TodosAPI.Core.Services
             return GenerateJwtToken(user);
         }
 
-        // Geração do token JWT
+
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
