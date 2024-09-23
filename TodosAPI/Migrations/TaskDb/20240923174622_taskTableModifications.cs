@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace TodosAPI.Migrations
+namespace TodosAPI.Migrations.TaskDb
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class taskTableModifications : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

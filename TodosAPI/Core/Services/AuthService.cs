@@ -5,6 +5,7 @@ using TodosAPI.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace TodosAPI.Core.Services
 {
@@ -61,6 +62,46 @@ namespace TodosAPI.Core.Services
             }
         }
 
+        public async Task<User> GetUserFromTokenOrFailedAsync(string? token) 
+        {
+            // Verificar se o token é nulo ou vazio
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new BadHttpRequestException("Token vazio");
+            }
+
+            // Verificar se o token é um token JWT válido
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
+                ValidateIssuer = true,
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = _configuration["Jwt:Issuer"],
+                ClockSkew = TimeSpan.Zero
+            };
+
+            try
+            {
+             
+                new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
+                string userEmail = ((JwtSecurityToken)validatedToken).Payload[JwtRegisteredClaimNames.Sub].ToString()!;
+                User? user = await _userRepository.GetByEmailAsync(userEmail);
+
+                if (user == null) 
+                {
+                    throw new Exception();
+
+                }
+                
+                return user;
+            }
+            catch
+            {
+                throw new BadHttpRequestException("Usuário inválido");
+            }
+        }
 
         public async Task<string> AuthenticateUserAsync(string email, string password)
         {
@@ -71,7 +112,7 @@ namespace TodosAPI.Core.Services
             return GenerateJwtToken(user);
         }
 
-
+      
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
@@ -80,7 +121,7 @@ namespace TodosAPI.Core.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(

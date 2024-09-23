@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodosAPI.Infrastructure.Data;
 
 #nullable disable
 
-namespace TodosAPI.Migrations
+namespace TodosAPI.Migrations.TaskDb
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TaskDbContext))]
+    [Migration("20240923174622_taskTableModifications")]
+    partial class taskTableModifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,23 +29,28 @@ namespace TodosAPI.Migrations
                 {
                     b.Property<int>("TarefaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("TarefaId");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TarefaId"));
 
                     b.Property<DateTime?>("CompletedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CompletedAt");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("Description");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("Title");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -51,7 +59,7 @@ namespace TodosAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tarefa");
+                    b.ToTable("tarefa", (string)null);
                 });
 
             modelBuilder.Entity("TodosAPI.Core.Entities.User", b =>
@@ -79,7 +87,7 @@ namespace TodosAPI.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Tarefa", b =>
@@ -88,7 +96,8 @@ namespace TodosAPI.Migrations
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Tarefa_Users_UserId");
 
                     b.Navigation("User");
                 });

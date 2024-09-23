@@ -20,13 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\UseCases\CreateTask\" />
     <Folder Include="Application\UseCases\GetUserTask\" />
     <Folder Include="Core\Services\" />
-    <Folder Include="Infrastructure\Repositories\" />
     <Folder Include="Infrastructure\Services\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Presentation\Controllers\" />
   </ItemGroup>
 
 </Project>

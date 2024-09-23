@@ -1,11 +1,14 @@
-﻿namespace TodosAPI.Core.Interfaces
+﻿using TodosAPI.Core.Entities;
+
+public interface ITaskRepository
 {
-    public interface ITaskRepository
-    {
-        Task<Task> getByIdAsync(int id, int userId);
-        Task<IEnumerable<Task>> getAllByUserIdAsync(int userId);
-        Task AddAsync(Task task);
-        Task UpdateAsync(Task task);
-        Task DeleteAsync(int id, int userId);
-    }
+    Task<Tarefa?> GetTaskAsync(int taskId);
+    Task<IEnumerable<Tarefa>> GetTasksAsync();
+    Task<IEnumerable<Tarefa>> GetTasksByUserIdAsync(int userId);
+    Task CreateTaskAsync(Tarefa task);
+    Task UpdateTaskAsync(Tarefa task);
+    Task DeleteTaskAsync(int taskId);
+    Task SaveChangesAsync(CancellationToken cancellationToken1);
+
+    void ResetTracker();
 }

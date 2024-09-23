@@ -1,5 +1,4 @@
 ﻿
-
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -17,7 +16,7 @@ namespace TodosAPI.Presentation.Controllers
         private readonly LoginUserHandler _loginUserHandler;
         private readonly CreateUserHandler _createUserHandler;
         private readonly AuthService _authService;
-        private object token;
+    
 
         public AuthController(CreateUserHandler createUserHandler, AuthService authService, LoginUserHandler loginUserHandler)
         {

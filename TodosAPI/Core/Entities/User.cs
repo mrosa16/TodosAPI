@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TodosAPI.Core.Entities
 {
@@ -6,11 +7,13 @@ namespace TodosAPI.Core.Entities
     {
         [Key]
         public int UserId { get; set; }
-        public string Email { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public required string Email { get; set; }
+        public required byte[] PasswordHash { get; set; }
+        public required byte[] PasswordSalt { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        [JsonIgnore]
+        public ICollection<Tarefa> Tasks { get; set; } = [];
 
     }
 }
