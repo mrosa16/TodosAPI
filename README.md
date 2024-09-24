@@ -1,64 +1,83 @@
-Para realizar a autenticação do usuario será necessário fazer o registro:
-###### Rota de Registro ######
-na rota /register
-
-Com o Body Request em JSON dessa maneira: 
-
-{
-  "email": "seuemail@email.com",
-  "password": "senha"
-}
-
-###### Rota de Autenticação ######
-Após a realização do registro será necessário realizar a autenticação na rota de /login 
-com as informações que foram registradas.
+##Rota de Registro##
+- Rota: /register
+- Explicação: Registra um novo usuário na plataforma.
+- Método: POST
+- Body Request (JSON):
+json
 
 {
   "email": "seuemail@email.com",
   "password": "senha"
 }
 
-Se houver sucesso o usuário terá acesso a sua chave JWT Token no Body de Resposta  com a seguinte mensagem:
+
+##Rota de Autenticação##
+- Rota: /login
+- Explicação: Autentica o usuário registrado e retorna um JWT Token.
+- Método: POST
+- Body Request (JSON):
+json
 
 {
-    "message": "Login realizado com suceeso",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjb3JyZWlhLjAxNi50Y0BnbWFpbC5jb20iLCJqdGkiOiIxODNlYzFlZC1kM2I2LTQwMjMtYmQ1ZS01MWRiZjYzYzQ5OWYiLCJleHAiOjE3MjcxODkwMDYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwODAiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDgwIn0.h-4mFhDmzWO97xJBQDAbeyW0fAcledYJQA28ldHP-bg"
+  "email": "seuemail@email.com",
+  "password": "senha"
 }
 
-###### Rota de Tarefa  ######
+- Body de Resposta (em caso de sucesso):
+json
 
-Para incluir uma tarefa o usuário devera estar autenticado com o JWT Token caso contrário ele encontará um erro de usuário inválido 
-Se o usuário não passar o token no Header vai retornar um Bad Request Token Vazio, válidando assim o login do usuário e única possibilidade de registrar/ver/atualizar e deletar uma tarefa é estando logado ao sistema. 
-
-Para Incluir uma tarefa deverá utilizar o Auth no Header e o Json: 
 {
-    "title": "Tarefa atribuida para ao usuario",
-    "description": "Essa tarefa é uma tarefa dificil e complicada"
+  "message": "Login realizado com sucesso",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 
 
-Para pegar todas as tarefas atribuidas ao usuário autenticado devemos acessar a rota /api/todos com o método GET. 
-Onde ele irá retornar um JSON com todas as tarefas que estão atribuidas ao UserId.
+##Rota para Incluir Tarefa##
+- Rota: /api/todos
+- Explicação: Inclui uma nova tarefa para o usuário autenticado.
+- Método: POST
+- Requisito: O usuário deve estar autenticado com um JWT Token.
+- Header: Authorization: Bearer {token}
+- Body Request (JSON):
+json
 
-Se quisermos solicitar a visualização de apenas uma tarefa, será necessário passar o Id na rota /api/todos/{id}
-ex: /api/todos/23
-
-Onde irá retornar um JSON com apenas aquela TaskId e todos seus detalhes
-
-Para editarmos uma tarefa basta estar com o usuario autenticado na rota /api/todos/{id} com o método PUT e o id da tarefa que iremos realizar a edição. 
 {
-    "Title": "Segunda Tarefa Modificada para o usuario ",
-    "Description": "Tarefa que antes era asssim agora é assado"
+  "title": "Tarefa atribuída para o usuário",
+  "description": "Essa tarefa é uma tarefa difícil e complicada"
 }
 
-Obs: Se quisermos alterar o Status basta colocar dentro do JSON o Status que a tarefa se encontra, caso contrário ela irá com o valor Default para o banco de dados até ser modificada
+##Rota para Listar Todas as Tarefas##
+- Rota: /api/todos
+- Explicação: Retorna todas as tarefas atribuídas ao usuário autenticado.
+- Método: GET
+- Requisito: O usuário deve estar autenticado com um JWT Token.
+- Header: Authorization: Bearer {token}
+
+##Rota para Visualizar uma Tarefa Específica##
+- Rota: /api/todos/{id}
+- Explicação: Retorna os detalhes de uma tarefa específica com base no TaskId.
+- Método: GET
+- Requisito: O usuário deve estar autenticado com um JWT Token.
+- Header: Authorization: Bearer {token}
+
+##Rota para Editar uma Tarefa##
+- Rota: /api/todos/{id}
+- Explicação: Edita uma tarefa existente com base no TaskId.
+- Método: PUT
+- Requisito: O usuário deve estar autenticado com um JWT Token.
+- Header: Authorization: Bearer {token}
+- Body Request (JSON):
+json
+
 {
-    "Title": "Segunda Tarefa Modificada para o usuario ",
-    "Description": "Tarefa que antes era asssim agora é assado",
-    "Status": "Concluida"  
+  "title": "Segunda Tarefa Modificada para o usuário",
+  "description": "Tarefa que antes era assim agora é assado",
+  "status": "Concluída"
 }
 
-Para Remover uma tarefa basta acessar a rota /api/todos/{id} com o método Delete se o usuário tiver permissão para realizar a remoção da terafa irá retornar sucesso. 
-
-
-
+##Rota para Remover uma Tarefa##
+- Rota: /api/todos/{id}
+- Explicação: Remove uma tarefa específica com base no TaskId, desde que o usuário tenha permissão.
+- Método: DELETE
+- Requisito: O usuário deve estar autenticado com um JWT Token.
+- Header: Authorization: Bearer {token}
