@@ -4,12 +4,14 @@
 - Método: POST
 - Body Request (JSON):
 
-``
+```
 {
   "email": "seuemail@email.com",
   "password": "senha"
 }
-``
+```
+
+
 
 </br>
 </br>
@@ -19,20 +21,21 @@
 - Método: POST
 - Body Request (JSON):
 
-``
+```
 {
   "email": "seuemail@email.com",
   "password": "senha"
 }
-``
+```
 
 - Body de Resposta (em caso de sucesso):
 
-``
+```
 {
   "message": "Login realizado com sucesso",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}``
+}
+```
 
 
 </br>
@@ -46,12 +49,12 @@
 - Header: Authorization: Bearer {token}
 - Body Request (JSON):
 
-``
+```
 {
   "title": "Tarefa atribuída para o usuário",
   "description": "Essa tarefa é uma tarefa difícil e complicada"
 }
-``
+```
 
 
 </br>
@@ -86,12 +89,13 @@
 - Header: Authorization: Bearer {token}
 - Body Request (JSON):
 
-``
+```
 {
   "title": "Segunda Tarefa Modificada para o usuário",
   "description": "Tarefa que antes era assim agora é assado",
   "status": "Concluída"
-}``
+}
+```
 
 
 
