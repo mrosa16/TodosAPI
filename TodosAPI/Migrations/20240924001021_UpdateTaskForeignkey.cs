@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TodosAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class TableUpdateNow : Migration
+    public partial class UpdateTaskForeignkey : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace TodosAPI.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -29,19 +29,19 @@ namespace TodosAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Tarefa",
+                name: "tarefa",
                 columns: table => new
                 {
                     TarefaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
+                    Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CompletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -49,19 +49,19 @@ namespace TodosAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tarefa", x => x.TarefaId);
+                    table.PrimaryKey("PK_tarefa", x => x.TarefaId);
                     table.ForeignKey(
                         name: "FK_Tarefa_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tarefa_UserId",
-                table: "Tarefa",
+                name: "IX_tarefa_UserId",
+                table: "tarefa",
                 column: "UserId");
         }
 
@@ -69,10 +69,10 @@ namespace TodosAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Tarefa");
+                name: "tarefa");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
         }
     }
 }

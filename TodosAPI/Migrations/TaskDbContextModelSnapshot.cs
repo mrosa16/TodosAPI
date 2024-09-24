@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodosAPI.Infrastructure.Data;
 
 #nullable disable
 
-namespace TodosAPI.Migrations.TaskDb
+namespace TodosAPI.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20240923174622_taskTableModifications")]
-    partial class taskTableModifications
+    partial class TaskDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +40,6 @@ namespace TodosAPI.Migrations.TaskDb
                         .HasColumnName("CreatedAt");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("Description");
 

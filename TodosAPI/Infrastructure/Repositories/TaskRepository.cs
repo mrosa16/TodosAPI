@@ -31,17 +31,24 @@ namespace TodosAPI.Infrastructure.Repositories
             return await _context.Tasks.ToListAsync();
         }
 
-        public async Task<IEnumerable<Tarefa>> GetTasksByUserIdAsync(int userId)
+        public async Task<IEnumerable<Tarefa>> GetTasksByUserIdAsync(User user)
         {
-            return await _context.Tasks
-                .Where(t => t.User.UserId == userId)
+            Console.WriteLine($"Buscando tarefas para o UserId: {user.UserId}"); 
+
+            var userID = user.UserId; 
+            var tasksForUser = await _context.Tasks
+                .Where(t => t.UserId == userID)
                 .ToListAsync();
+
+           
+            return tasksForUser;
         }
+
 
         public async Task CreateTaskAsync(Tarefa task)
         {
             _context.Attach(task.User);
-            _context.Set<Tarefa>().Add(task);
+            _context.Tasks.Add(task);
 
             await _context.SaveChangesAsync();
         }
@@ -55,8 +62,8 @@ namespace TodosAPI.Infrastructure.Repositories
         public async Task DeleteTaskAsync(int taskId)
         {
             var task = await GetTaskAsync(taskId);
-            if(task != null)
-            
+            if (task != null)
+
             {
                 _context.Tasks.Remove(task);
                 await _context.SaveChangesAsync();

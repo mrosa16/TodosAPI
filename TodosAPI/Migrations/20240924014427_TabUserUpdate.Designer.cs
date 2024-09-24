@@ -9,11 +9,11 @@ using TodosAPI.Infrastructure.Data;
 
 #nullable disable
 
-namespace TodosAPI.Migrations.TaskDb
+namespace TodosAPI.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20240923152552_tableTask")]
-    partial class tableTask
+    [Migration("20240924014427_TabUserUpdate")]
+    partial class TabUserUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,6 @@ namespace TodosAPI.Migrations.TaskDb
                         .HasColumnName("CreatedAt");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("Description");
 
@@ -53,8 +52,7 @@ namespace TodosAPI.Migrations.TaskDb
                         .HasColumnName("Title");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
+                        .HasColumnType("int");
 
                     b.HasKey("TarefaId");
 

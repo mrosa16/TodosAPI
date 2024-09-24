@@ -9,11 +9,11 @@ using TodosAPI.Infrastructure.Data;
 
 #nullable disable
 
-namespace TodosAPI.Migrations
+namespace TodosAPI.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240923152517_TableUpdateNow")]
-    partial class TableUpdateNow
+    [Migration("20240924014407_TaskTabUserUpdate")]
+    partial class TaskTabUserUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,6 @@ namespace TodosAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Title")
