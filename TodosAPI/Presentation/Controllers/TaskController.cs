@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TodosAPI.Application.UseCases.CreateTask;
 using TodosAPI.Core.Entities;
 using TodosAPI.Core.Services;
@@ -49,19 +51,39 @@ public class TasksController : ControllerBase
         {
             // Obter o usuário a partir do token JWT
             User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
-            Console.WriteLine($"Usuário autenticado: {user.UserId}"); // Log do UserId do usuário autenticado
+           
 
             // Chamar o repositório para buscar as tarefas do usuário
             var tasks = await _taskRepository.GetTasksByUserIdAsync(user);
-            Console.WriteLine($"Número de tarefas retornadas: {tasks.Count()}"); // Log da quantidade de tarefas retornadas
+          
 
             return Ok(tasks);
         }
         catch (Exception ex)
         {
-            // Log do erro
+            
             Console.WriteLine($"Erro ao buscar tarefas: {ex.Message}");
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("{id}")]
+ 
+    public async Task<IActionResult> GetTaskById(int id)
+    {
+        User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
+
+        var task = await _taskRepository.GetTaskAsync(id);
+        if (task == null || task.UserId != user.UserId)
+        {
+            return BadRequest("Tarefa não pertence ao usuário"); // Retorna 404 se a tarefa não for encontrada ou não pertencer ao usuário
+        }
+
+        return Ok(task);
+    }
+
+   
+
+  
+
 }

@@ -21,6 +21,7 @@ namespace TodosAPI.Infrastructure.Repositories
         }
         public async Task<Tarefa?> GetTaskAsync(int tarefaId)
         {
+            
             return await _context.Tasks
                        .Where(t => t.TarefaId == tarefaId)
                        .FirstOrDefaultAsync();
@@ -55,7 +56,7 @@ namespace TodosAPI.Infrastructure.Repositories
 
         public async Task UpdateTaskAsync(Tarefa task)
         {
-            _context.Tasks.Remove(task);
+            _context.Tasks.Update(task);
             await _context.SaveChangesAsync();
         }
 
