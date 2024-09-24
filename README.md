@@ -10,8 +10,8 @@
   "password": "senha"
 }
 
-
-
+</br>
+</br>
 **Rota de Autenticação**
 - Rota: /login
 - Explicação: Autentica o usuário registrado e retorna um JWT Token.
@@ -32,7 +32,8 @@
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 
-
+</br>
+</br>
 
 **Rota para Incluir Tarefa**
 - Rota: /api/todos
@@ -48,7 +49,8 @@
   "description": "Essa tarefa é uma tarefa difícil e complicada"
 }
 
-
+</br>
+</br>
 
 **Rota para Listar Todas as Tarefas**
 - Rota: /api/todos
@@ -57,7 +59,8 @@
 - Requisito: O usuário deve estar autenticado com um JWT Token.
 - Header: Authorization: Bearer {token}
 
-
+</br>
+</br>
 
 **Rota para Visualizar uma Tarefa Específica**
 - Rota: /api/todos/{id}
@@ -66,7 +69,8 @@
 - Requisito: O usuário deve estar autenticado com um JWT Token.
 - Header: Authorization: Bearer {token}
 
-
+</br>
+</br>
 
 
 **Rota para Editar uma Tarefa**
@@ -85,7 +89,8 @@
 }
 
 
-
+</br>
+</br>
 
 **Rota para Remover uma Tarefa**
 - Rota: /api/todos/{id}
