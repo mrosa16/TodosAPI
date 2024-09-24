@@ -23,10 +23,10 @@ public class TasksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateTask([FromBody] CreateTaskRequest request)
     {
-        // Obter as informações do usuário a partir do token JWT
+       
         User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
 
-        // Criar a tarefa associada ao usuário
+       
         var task = new Tarefa
         {
             Title = request.Title,
@@ -38,7 +38,7 @@ public class TasksController : ControllerBase
 
         _taskRepository.ResetTracker();
 
-        // Salvar a tarefa no banco de dados
+        
         await _taskRepository.CreateTaskAsync(task);
 
         return Ok(task);
@@ -50,11 +50,11 @@ public class TasksController : ControllerBase
     {
         try
         {
-            // Obter o usuário a partir do token JWT
+            
             User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
            
 
-            // Chamar o repositório para buscar as tarefas do usuário
+            
             var tasks = await _taskRepository.GetTasksByUserIdAsync(user);
           
 
@@ -63,7 +63,7 @@ public class TasksController : ControllerBase
         catch (Exception ex)
         {
             
-            Console.WriteLine($"Erro ao buscar tarefas: {ex.Message}");
+            
             return BadRequest(new { message = ex.Message });
         }
     }
@@ -98,7 +98,7 @@ public class TasksController : ControllerBase
 
         if(existingTask.UserId != user.UserId)
         {
-            return Forbid("Você não tem permissão para ataulizar esta tarefa");
+            return BadRequest("Você não tem permissão para ataulizar esta tarefa");
         }
 
         existingTask.Title = updatedTask.Title;
@@ -124,7 +124,7 @@ public class TasksController : ControllerBase
 
         if (task.UserId != user.UserId)
         {
-            return Forbid("Você não tem permissão para deletar esta tarefa");
+            return BadRequest("Você não tem permissão para deletar esta tarefa");
         }
 
         await _taskRepository.DeleteTaskAsync(id);

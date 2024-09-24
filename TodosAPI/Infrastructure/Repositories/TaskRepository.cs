@@ -34,7 +34,7 @@ namespace TodosAPI.Infrastructure.Repositories
 
         public async Task<IEnumerable<Tarefa>> GetTasksByUserIdAsync(User user)
         {
-            Console.WriteLine($"Buscando tarefas para o UserId: {user.UserId}"); 
+          
 
             var userID = user.UserId; 
             var tasksForUser = await _context.Tasks
@@ -55,8 +55,12 @@ namespace TodosAPI.Infrastructure.Repositories
         }
 
         public async Task UpdateTaskAsync(Tarefa task)
-        {
-            if (task.Status == "Concluída")
+        {   
+            if(task.Status == null)
+            {
+                task.Status = "Criada";
+            }
+            if (task.Status == "Concluida")
             {
                 task.CompletedAt = DateTime.UtcNow;
             }
