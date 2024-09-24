@@ -23,6 +23,7 @@ namespace TodosAPI.Infrastructure.Data
             //modelBuilder.Entity<Tarefa>().Property(t => t.UserId).HasColumnName("UserId");
             modelBuilder.Entity<Tarefa>().Property(t => t.CreatedAt).HasColumnName("CreatedAt");
             modelBuilder.Entity<Tarefa>().Property(t => t.CompletedAt).HasColumnName("CompletedAt");
+            modelBuilder.Entity<Tarefa>().Property(t => t.Status).HasColumnName("Status");
             modelBuilder.Entity<Tarefa>()
             .HasOne(t => t.User) // Navigation property
             .WithMany(u => u.Tasks)

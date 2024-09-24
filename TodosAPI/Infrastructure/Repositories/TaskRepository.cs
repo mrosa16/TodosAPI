@@ -56,9 +56,15 @@ namespace TodosAPI.Infrastructure.Repositories
 
         public async Task UpdateTaskAsync(Tarefa task)
         {
+            if (task.Status == "Concluída")
+            {
+                task.CompletedAt = DateTime.UtcNow;
+            }
             _context.Tasks.Update(task);
             await _context.SaveChangesAsync();
         }
+
+     
 
         public async Task DeleteTaskAsync(int taskId)
         {

@@ -9,5 +9,6 @@ public class Tarefa
     public DateTime CreatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public int UserId { get; set; }
+    public string Status { get; set; } = "Criada";
     public required User User { get; set; }
 }

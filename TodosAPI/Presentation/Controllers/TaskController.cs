@@ -77,7 +77,7 @@ public class TasksController : ControllerBase
         var task = await _taskRepository.GetTaskAsync(id);
         if (task == null || task.UserId != user.UserId)
         {
-            return BadRequest("Tarefa não pertence ao usuário"); // Retorna 404 se a tarefa não for encontrada ou não pertencer ao usuário
+            return BadRequest("Tarefa não pertence ao usuário"); 
         }
 
         return Ok(task);
@@ -103,12 +103,34 @@ public class TasksController : ControllerBase
 
         existingTask.Title = updatedTask.Title;
         existingTask.Description = updatedTask.Description;
-        existingTask.CompletedAt = updatedTask.CompletedAt;
+        existingTask.Status = updatedTask.Status;
+
 
         await _taskRepository.UpdateTaskAsync(existingTask);
         return Ok(existingTask);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTask(int id)
+    {
+        User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
+        var task = await _taskRepository.GetTaskAsync(id);
+
+        if(task == null)
+        {
+            return NotFound("Tarefa não encontrada");
+
+        }
+
+        if (task.UserId != user.UserId)
+        {
+            return Forbid("Você não tem permissão para deletar esta tarefa");
+        }
+
+        await _taskRepository.DeleteTaskAsync(id);
+
+        return NoContent();
+    }
 
 
 
