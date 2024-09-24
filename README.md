@@ -1,4 +1,4 @@
-#Rota de Registro#
+##Rota de Registro##
 - Rota: /register
 - Explicação: Registra um novo usuário na plataforma.
 - Método: POST
