@@ -15,6 +15,7 @@
 
 </br>
 </br>
+
 **Rota de Autenticação**
 - Rota: /login
 - Explicação: Autentica o usuário registrado e retorna um JWT Token.
