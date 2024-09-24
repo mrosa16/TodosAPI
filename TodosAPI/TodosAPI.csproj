@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\NovaPasta\**" />
+    <Compile Remove="Infrastructure\Repositories\NovaPasta1\**" />
+    <Content Remove="Infrastructure\NovaPasta\**" />
+    <Content Remove="Infrastructure\Repositories\NovaPasta1\**" />
+    <EmbeddedResource Remove="Infrastructure\NovaPasta\**" />
+    <EmbeddedResource Remove="Infrastructure\Repositories\NovaPasta1\**" />
+    <None Remove="Infrastructure\NovaPasta\**" />
+    <None Remove="Infrastructure\Repositories\NovaPasta1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JWT" Version="11.0.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />

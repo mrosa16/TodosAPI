@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TodosAPI.Application.UseCases.CreateTask;
 using TodosAPI.Core.Entities;
 using TodosAPI.Core.Services;
+using TodosAPI.Infrastructure.Dto_s;
 using TodosAPI.Infrastructure.Repositories;
 
 [ApiController]
@@ -82,8 +83,34 @@ public class TasksController : ControllerBase
         return Ok(task);
     }
 
-   
 
-  
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Updatetask(int id, [FromBody] UpdateTaskDto updatedTask)
+    {
+        User user = await _authService.GetUserFromTokenOrFailedAsync(Request.Headers["Authorization"]);
+
+        var existingTask = await _taskRepository.GetTaskAsync(id);
+
+        if(existingTask == null)
+        {
+            return NotFound("Tarefa não encontrada");
+        }
+
+        if(existingTask.UserId != user.UserId)
+        {
+            return Forbid("Você não tem permissão para ataulizar esta tarefa");
+        }
+
+        existingTask.Title = updatedTask.Title;
+        existingTask.Description = updatedTask.Description;
+        existingTask.CompletedAt = updatedTask.CompletedAt;
+
+        await _taskRepository.UpdateTaskAsync(existingTask);
+        return Ok(existingTask);
+    }
+
+
+
+
 
 }
